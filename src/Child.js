@@ -1,4 +1,6 @@
 import { memo } from 'react';
+//props로 전달되는 값이 참조형 자료일때 참조링크값을 비교하는 것이아닌 참조되고 있는 원본 데이터가 같은지를 비교
+import { isEqual } from 'lodash';
 
 function Child(props) {
 	console.log('child');
@@ -9,7 +11,7 @@ function Child(props) {
 	);
 }
 
-export default memo(Child);
+export default memo(Child, isEqual);
 
 /*
   메모이제이션
@@ -26,4 +28,9 @@ export default memo(Child);
 
   - 자식컴포넌트가 memo로 메모이제이션되었다 하더라도 prop값이 전달되면 memoization이 풀림
   - 자식 요소에 props전달되지 않는 값이 부모 컴포넌트에서 변경되면 그때는 자식컴포넌트의 메모이제이션이 유지됨
+
+  -만약 prop으로 참조형 자료가 전달되면 부모에서 해당값을 변경하지 않더라도 부모컴포넌트가 재랜더링되면 자식컴포넌트의 메모이제이션이 풀리면서 재호출 발생
+
+  - 위와 같은 현상 발생이유 - 참조형 자료는 메모리에 해당 값 자체가 할당되는 것이 아닌 참조 링크가 할당되기 때문에 부모컴포넌트가 재호출일어나면 참조링크가 계속 변경되고 자식 컴포넌트 입장에서는 매번 다른 값이 전달되므로 메모이제이션을 해제
+  - 해결방법 : lodash의 isEqual을 이용해서 참조링크가 아닌 참조되는 원본 데이터값을 비교해서 해결
 */
