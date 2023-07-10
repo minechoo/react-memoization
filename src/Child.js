@@ -1,13 +1,24 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 //props로 전달되는 값이 참조형 자료일때 참조링크값을 비교하는 것이아닌 참조되고 있는 원본 데이터가 같은지를 비교
 import { isEqual } from 'lodash';
 
 function Child(props) {
 	console.log('child');
+
+	const heavyWork = useMemo(() => {
+		let num = 0;
+		for (let i = 0; i < 5000000000; i++) {
+			num++;
+		}
+		return num;
+	}, []);
+
 	return (
 		<div>
 			<h1>Child : {props.Counter}</h1>
 			<button onClick={props.updateCounter}>update</button>
+			{/* <h2>{heavyWork()}</h2> */}
+			<h2>{heavyWork}</h2>
 		</div>
 	);
 }
@@ -40,4 +51,9 @@ export default memo(Child, isEqual);
    - useCallback : 부모컴포넌트 단에서 props전달되는 함수자체를  memoization처리
   - useCallback사용시 함수를 통채로 메모이제이션하기 때문에 함수내부에서 특정 State값을 변경한다면 해당 State를 의존성배열에 등록
   - 해당 State가 변경될때만 임시로 메모이제이션을 풀어주도록 설정
+
+  - useMemo : 특정함수의 리턴값 자체를 메모이제이션
+  - useCallback 사용예1: 자식으로 함수를 전달할때 해당 함수를 메모이제이션처리해서 자식 컴포넌트의 재호출 자체를 막고 싶을때
+  - useCallback 사용예2: props로 함수를 전달하지 않더라도 특정 컴포넌트가 재호출될때마다 굳이 똑같은 함수를 매번 해석하지 않아야될때
+  - useMemo 사용예: 자식 컴포넌트의 재호출이 불가피할때 자식 컴포넌트에서 무겁게 연산되는 특정값을 메모이제이션 처리해서 자식 컴포넌트가 재호출되더라도 무겁지않게 재호출하기 위함
 */
