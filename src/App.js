@@ -5,7 +5,7 @@ function App() {
 	console.log('parent');
 	const [Counter, setCounter] = useState(0);
 	const [Input, setInput] = useState('');
-	const colors = ['red', 'green', 'blue'];
+	const [colors] = useState(['red', 'green', 'blue']);
 
 	return (
 		<div>

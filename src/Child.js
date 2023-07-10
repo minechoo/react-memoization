@@ -11,7 +11,7 @@ function Child(props) {
 	);
 }
 
-export default memo(Child, isEqual);
+export default memo(Child);
 
 /*
   메모이제이션
