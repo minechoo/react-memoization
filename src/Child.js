@@ -6,12 +6,13 @@ function Child(props) {
 	console.log('child');
 	return (
 		<div>
-			<h1>Child</h1>
+			<h1>Child : {props.Counter}</h1>
+			<button onClick={props.updateCounter}>update</button>
 		</div>
 	);
 }
 
-export default memo(Child);
+export default memo(Child, isEqual);
 
 /*
   메모이제이션
