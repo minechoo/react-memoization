@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Child from './Child';
 
 function App() {
@@ -8,7 +8,8 @@ function App() {
 	// const [colors] = useState(['red', 'green', 'blue']);
 	const colors = ['red', 'green', 'blue'];
 
-	const updateCounter = () => setCounter(Counter + 1);
+	//useCallback(메모이제이션 할 함수, 의존성 배열)
+	const updateCounter = useCallback(() => setCounter(Counter + 1), [Counter]);
 
 	return (
 		<div>
